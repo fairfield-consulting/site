@@ -1,35 +1,39 @@
-import { ArrowPathIcon, LockClosedIcon } from '@heroicons/react/24/outline'
-import { Palette, GraduationCap } from 'lucide-react'
-import type { HTMLAttributes } from 'react'
+import {
+  PencilIcon,
+  ComputerDesktopIcon,
+  MagnifyingGlassIcon,
+  BookOpenIcon,
+} from '@heroicons/react/24/outline'
+import type { ComponentProps } from 'react'
 
 const features = [
   {
     name: 'Design',
     description:
-      'We can bring your vision to life with cutting-edge technology and a focus on user experience.',
-    icon: Palette,
+      'We make your vision a reality through innovative technology, user-friendly design, and a strong focus on user experience.',
+    icon: PencilIcon,
   },
   {
     name: 'Development',
     description:
-      'From static sites to full-stack applications, we can help you build it. We offer a wide range of services to help you build your next project.',
-    icon: LockClosedIcon,
+      'We specialize in React and TypeScript websites and applications with proficiency in other languages and frameworks.',
+    icon: ComputerDesktopIcon,
   },
   {
     name: 'SEO',
     description:
-      'Maximize your online visibility and attract more traffic to your website with our expert search engine optimization (SEO) services.',
-    icon: ArrowPathIcon,
+      'Enhance your web presence and drive more website traffic with our professional SEO services.',
+    icon: MagnifyingGlassIcon,
   },
   {
     name: 'Education',
     description:
-      'Through pair programming and mentoring, we can help you learn the skills you need to build your next project.',
-    icon: GraduationCap,
+      'Through pair programming and mentorship, help you and your team learn new technologies and best practices.',
+    icon: BookOpenIcon,
   },
 ]
 
-export function Services(props: HTMLAttributes<HTMLDivElement>) {
+export function Services(props: ComponentProps<'div'>) {
   return (
     <div
       className='bg-gradient-to-r from-slate-950 to-slate-900 py-24 sm:py-32'
@@ -38,12 +42,11 @@ export function Services(props: HTMLAttributes<HTMLDivElement>) {
       <div className='mx-auto max-w-7xl px-6 lg:px-8'>
         <div className='mx-auto max-w-2xl lg:text-center'>
           <h2 className='mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl'>
-            Everything you need for your business
+            Our Services
           </h2>
           <p className='mt-6 text-lg leading-8 text-primary-200'>
-            Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-            Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
-            In mi viverra elit nunc.
+            Whether we are small or large part of your next project, here's how
+            we can help.
           </p>
         </div>
         <div className='mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl'>

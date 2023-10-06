@@ -1,6 +1,6 @@
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
+import { EnvelopeIcon } from '@heroicons/react/24/solid'
 
-export const Hero = () => {
+export const Hero = ({ code }: { code: string }) => {
   return (
     <div className='bg-white'>
       <div className='relative isolate overflow-hidden bg-gradient-to-b from-primary-100/20'>
@@ -8,31 +8,36 @@ export const Hero = () => {
           <div className='px-6 lg:px-0 lg:pt-4'>
             <div className='mx-auto max-w-2xl'>
               <div className='max-w-lg'>
-                <img
-                  className='h-11'
-                  src='https://tailwindui.com/img/logos/mark.svg?color=primary&shade=600'
-                  alt='Your Company'
-                />
+                <div className='inline-flex flex-row items-center'>
+                  <span
+                    className='rounded bg-slate-950 px-3 py-1.5 text-3xl font-bold text-white'
+                    role='img'
+                  >
+                    F
+                  </span>
+                  <span className='ml-2 font-bold text-slate-950'>
+                    Fairfield Consulting
+                  </span>
+                </div>
                 <h1 className='mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
-                  Supercharge your web applications
+                  Creating better web experiences together
                 </h1>
                 <p className='mt-6 text-lg leading-8 text-gray-600'>
-                  Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure
-                  qui lorem cupidatat commodo. Elit sunt amet fugiat veniam
-                  occaecat fugiat aliqua.
+                  Fairfield Consulting is a full-service web development
+                  consultancy based in Detroit, MI. We specialize in building
+                  custom web applications and websites for small businesses and
+                  startups.
                 </p>
                 <div className='mt-10 flex items-center gap-x-6'>
                   <a
-                    href='#'
-                    className='rounded-md bg-primary-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-800'
+                    href='mailto:hello@fairfieldconsulting.llc'
+                    className='inline-flex items-center rounded-md bg-primary-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-800'
                   >
-                    Documentation
-                  </a>
-                  <a
-                    href='#'
-                    className='text-sm font-semibold leading-6 text-gray-900'
-                  >
-                    View on GitHub <span aria-hidden='true'>→</span>
+                    Let's talk{' '}
+                    <EnvelopeIcon
+                      aria-hidden='true'
+                      className='ml-1.5 h-4 w-4'
+                    />
                   </a>
                 </div>
               </div>
@@ -55,21 +60,17 @@ export const Hero = () => {
                       <div className='flex bg-gray-800/40 ring-1 ring-white/5'>
                         <div className='-mb-px flex text-sm font-medium leading-6 text-gray-400'>
                           <div className='border-b border-r border-b-white/20 border-r-white/10 bg-white/5 px-4 py-2 text-white'>
-                            NotificationSetting.jsx
+                            components/counter.tsx
                           </div>
                           <div className='border-r border-gray-600/10 px-4 py-2'>
-                            App.jsx
+                            app.tsx
                           </div>
                         </div>
                       </div>
-                      <div className='px-6 pb-14 pt-6'>
-                        <pre
-                          className='text-[0.8125rem] leading-6 text-gray-300'
-                          style={{ tabSize: 2 }}
-                        >
-                          <code>{`import { useState } from 'react'\n\nimport {useMemo} frmo React`}</code>
-                        </pre>
-                      </div>
+                      <div
+                        className='px-6 pb-14 pt-6 [&>pre]:!bg-transparent'
+                        dangerouslySetInnerHTML={{ __html: code }}
+                      ></div>
                     </div>
                   </div>
                   <div
