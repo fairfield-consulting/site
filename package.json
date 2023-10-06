@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/react": "^3.0.3",
     "@astrojs/tailwind": "^5.0.1",
+    "@astrojs/vercel": "^5.0.2",
     "@fontsource/inter": "^5.0.12",
     "@heroicons/react": "^2.0.18",
     "astro": "^3.2.3",
