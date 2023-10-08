@@ -1,5 +1,6 @@
 import './globals.css'
 
+import { Analytics } from '@vercel/analytics/react'
 import clsx from 'clsx'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={clsx(inter.className, 'scroll-smooth bg-white')}>
         <div className='bg-white'>{children}</div>
+        <Analytics />
       </body>
     </html>
   )
