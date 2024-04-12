@@ -10,13 +10,13 @@ const features = [
   {
     name: 'Design',
     description:
-      'We make your vision a reality through innovative technology, user-friendly design, and a strong focus on user experience.',
+      'We bring your vision to life with the latest web technology and a strong focus on user experience and accessibility.',
     icon: PencilIcon,
   },
   {
     name: 'Development',
     description:
-      'We specialize in React and TypeScript websites and applications with proficiency in other languages and frameworks.',
+      'We specialize in Node.js, React, and TypeScript, with proficiency in other languages and frameworks.',
     icon: ComputerDesktopIcon,
   },
   {
@@ -28,7 +28,7 @@ const features = [
   {
     name: 'Education',
     description:
-      'Through pair programming and mentorship, help you and your team learn new technologies and best practices.',
+      'Through pair programming and mentorship, we help your team stay up-to-date with the latest technologies and learn best practices.',
     icon: BookOpenIcon,
   },
 ]

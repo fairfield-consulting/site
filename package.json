@@ -1,7 +1,9 @@
 {
   "name": "site",
+  "private": true,
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@8.15.6",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -12,7 +14,8 @@
   "dependencies": {
     "@astrojs/react": "^3.3.0",
     "@astrojs/tailwind": "^5.1.0",
-    "@fontsource/inter": "^5.0.17",
+    "@fontsource-variable/inter": "^5.0.17",
+    "@fontsource-variable/jetbrains-mono": "^5.0.20",
     "@heroicons/react": "^2.1.3",
     "astro": "^4.6.0",
     "react": "^18.2.0",

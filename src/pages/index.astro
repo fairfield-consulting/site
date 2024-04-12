@@ -1,11 +1,12 @@
 ---
-import '@fontsource/inter'
+import '@fontsource-variable/inter'
+import '@fontsource-variable/jetbrains-mono'
 import { getHighlighter } from 'shiki'
 import { Hero } from '../Hero'
 import { Services } from '../Services'
 
 const highlighter = await getHighlighter({
-  themes: ['github-dark'],
+  themes: ['github-dark-default'],
   langs: ['tsx'],
 })
 const codeString = `
@@ -27,7 +28,7 @@ export function Counter() {
 `
 const code = highlighter.codeToHtml(codeString, {
   lang: 'tsx',
-  theme: 'github-dark',
+  theme: 'github-dark-default',
 })
 ---
 

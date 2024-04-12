@@ -1,6 +1,6 @@
 # fairfieldconsulting.llc
 
-> Website for Fairfield Consulting, LLC built with [Astro](https://astro.build).
+> Website for Fairfield Consulting LLC built with [Astro](https://astro.build).
 
 ## 🧞 Commands
 

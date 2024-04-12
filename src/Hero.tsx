@@ -49,7 +49,7 @@ export const Hero = ({ code }: { code: string }) => {
               aria-hidden='true'
             />
             <div className='shadow-lg md:rounded-3xl'>
-              <div className='bg-primary-500 [clip-path:inset(0)] md:[clip-path:inset(0_round_theme(borderRadius.3xl))]'>
+              <div className='bg-blue-500/50 [clip-path:inset(0)] md:[clip-path:inset(0_round_theme(borderRadius.3xl))]'>
                 <div
                   className='absolute -inset-y-px left-1/2 -z-10 ml-10 w-[200%] skew-x-[-30deg] bg-primary-100 opacity-20 ring-1 ring-inset ring-white md:ml-20 lg:ml-36'
                   aria-hidden='true'
