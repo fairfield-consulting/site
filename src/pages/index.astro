@@ -1,10 +1,13 @@
 ---
 import '@fontsource/inter'
-import shiki from 'shiki'
+import { getHighlighter } from 'shiki'
 import { Hero } from '../Hero'
 import { Services } from '../Services'
 
-const highlighter = await shiki.getHighlighter({ theme: 'github-dark' })
+const highlighter = await getHighlighter({
+  themes: ['github-dark'],
+  langs: ['tsx'],
+})
 const codeString = `
 import { useState } from 'react'
 
@@ -24,6 +27,7 @@ export function Counter() {
 `
 const code = highlighter.codeToHtml(codeString, {
   lang: 'tsx',
+  theme: 'github-dark',
 })
 ---
 
