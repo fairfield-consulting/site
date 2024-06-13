@@ -22,7 +22,7 @@ const features = [
   {
     name: 'SEO',
     description:
-      'Enhance your web presence and drive more website traffic with our professional SEO services.',
+      'Enhance your web presence and drive more website traffic with our SEO services.',
     icon: MagnifyingGlassIcon,
   },
   {

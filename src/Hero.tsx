@@ -12,6 +12,7 @@ export const Hero = ({ code }: { code: string }) => {
                   <span
                     className='rounded bg-slate-950 px-3 py-1.5 text-3xl font-bold text-white'
                     role='img'
+                    aria-hidden='true'
                   >
                     F
                   </span>
@@ -25,8 +26,8 @@ export const Hero = ({ code }: { code: string }) => {
                 <p className='mt-6 text-lg leading-8 text-gray-600'>
                   Fairfield Consulting is a full-service web development
                   consultancy based in Detroit, MI. We specialize in building
-                  custom web applications and websites for small businesses and
-                  startups.
+                  custom websites, web applications and APIs for small
+                  businesses and startups.
                 </p>
                 <div className='mt-10 flex items-center gap-x-6'>
                   <a

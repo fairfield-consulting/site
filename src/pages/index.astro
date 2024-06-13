@@ -4,6 +4,7 @@ import '@fontsource-variable/jetbrains-mono'
 import { getHighlighter } from 'shiki'
 import { Hero } from '../Hero'
 import { Services } from '../Services'
+import { Footer } from '../Footer'
 
 const highlighter = await getHighlighter({
   themes: ['github-dark-default'],
@@ -44,6 +45,7 @@ const code = highlighter.codeToHtml(codeString, {
     <div class='bg-white'>
       <Hero code={code} />
       <Services />
+      <Footer />
     </div>
   </body>
 </html>
