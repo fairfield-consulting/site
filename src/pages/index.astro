@@ -1,12 +1,13 @@
 ---
 import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
-import { getHighlighter } from 'shiki'
+import { createHighlighter } from 'shiki'
 import { Hero } from '../Hero'
 import { Services } from '../Services'
 import { Footer } from '../Footer'
+import '../global.css'
 
-const highlighter = await getHighlighter({
+const highlighter = await createHighlighter({
   themes: ['github-dark-default'],
   langs: ['tsx'],
 })
