@@ -3,7 +3,7 @@ import { EnvelopeIcon } from '@heroicons/react/24/solid'
 export const Hero = ({ code }: { code: string }) => {
   return (
     <div className='bg-white'>
-      <div className='relative isolate overflow-hidden bg-gradient-to-b from-primary-100/20'>
+      <div className='from-primary-100/20 relative isolate overflow-hidden bg-gradient-to-b'>
         <div className='mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40'>
           <div className='px-6 lg:px-0 lg:pt-4'>
             <div className='mx-auto max-w-2xl'>
@@ -32,7 +32,7 @@ export const Hero = ({ code }: { code: string }) => {
                 <div className='mt-10 flex items-center gap-x-6'>
                   <a
                     href='mailto:hello@fairfieldconsulting.llc'
-                    className='inline-flex items-center rounded-md bg-primary-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-800'
+                    className='bg-primary-900 hover:bg-primary-800 focus-visible:outline-primary-800 inline-flex items-center rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
                   >
                     Let's talk{' '}
                     <EnvelopeIcon
@@ -46,13 +46,13 @@ export const Hero = ({ code }: { code: string }) => {
           </div>
           <div className='mt-20 sm:mt-24 md:mx-auto md:max-w-2xl lg:mx-0 lg:mt-0 lg:w-screen'>
             <div
-              className='absolute inset-y-0 right-1/2 -z-10 -mr-10 w-[200%] skew-x-[-30deg] bg-white shadow-xl shadow-primary-600/10 ring-1 ring-primary-50 md:-mr-20 lg:-mr-36'
+              className='shadow-primary-600/10 ring-primary-50 absolute inset-y-0 right-1/2 -z-10 -mr-10 w-[200%] skew-x-[-30deg] bg-white shadow-xl ring-1 md:-mr-20 lg:-mr-36'
               aria-hidden='true'
             />
             <div className='shadow-lg md:rounded-3xl'>
               <div className='bg-blue-500/50 [clip-path:inset(0)] md:[clip-path:inset(0_round_theme(borderRadius.3xl))]'>
                 <div
-                  className='absolute -inset-y-px left-1/2 -z-10 ml-10 w-[200%] skew-x-[-30deg] bg-primary-100 opacity-20 ring-1 ring-inset ring-white md:ml-20 lg:ml-36'
+                  className='bg-primary-100 absolute -inset-y-px left-1/2 -z-10 ml-10 w-[200%] skew-x-[-30deg] opacity-20 ring-1 ring-inset ring-white md:ml-20 lg:ml-36'
                   aria-hidden='true'
                 />
                 <div className='relative px-6 pt-8 sm:pt-16 md:pl-16 md:pr-0'>
