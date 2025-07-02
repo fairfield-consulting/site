@@ -13,7 +13,7 @@ importers:
         version: 4.2.1(@types/node@20.14.2)(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(jiti@2.4.2)(lightningcss@1.29.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@astrojs/tailwind':
         specifier: ^6.0.0
-        version: 6.0.0(astro@5.4.3(@types/node@20.14.2)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2))(tailwindcss@4.0.13)
+        version: 6.0.0(astro@5.4.3(@types/node@20.14.2)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2))(tailwindcss@4.1.11)
       '@fontsource-variable/inter':
         specifier: ^5.0.18
         version: 5.0.18
@@ -38,7 +38,7 @@ importers:
     devDependencies:
       '@tailwindcss/forms':
         specifier: ^0.5.7
-        version: 0.5.7(tailwindcss@4.0.13)
+        version: 0.5.7(tailwindcss@4.1.11)
       '@tailwindcss/vite':
         specifier: ^4.0.13
         version: 4.0.13(vite@6.2.1(@types/node@20.14.2)(jiti@2.4.2)(lightningcss@1.29.2))
@@ -58,8 +58,8 @@ importers:
         specifier: ^0.6.11
         version: 0.6.11(prettier-plugin-astro@0.14.1)(prettier@3.5.3)
       tailwindcss:
-        specifier: ^4.0.13
-        version: 4.0.13
+        specifier: ^4.1.11
+        version: 4.1.11
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -2141,6 +2141,9 @@ packages:
   tailwindcss@4.0.13:
     resolution: {integrity: sha512-gbvFrB0fOsTv/OugXWi2PtflJ4S6/ctu6Mmn3bCftmLY/6xRsQVEJPgIIpABwpZ52DpONkCA3bEj5b54MHxF2Q==}
 
+  tailwindcss@4.1.11:
+    resolution: {integrity: sha512-2E9TBm6MDD/xKYe+dvJZAmg3yxIEDNRc0jwlNyDg/4Fil2QcSLjFKGVff0lAf1jjeaArlG/M75Ey/EYr/OJtBA==}
+
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
@@ -2514,13 +2517,13 @@ snapshots:
       - tsx
       - yaml
 
-  '@astrojs/tailwind@6.0.0(astro@5.4.3(@types/node@20.14.2)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2))(tailwindcss@4.0.13)':
+  '@astrojs/tailwind@6.0.0(astro@5.4.3(@types/node@20.14.2)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2))(tailwindcss@4.1.11)':
     dependencies:
       astro: 5.4.3(@types/node@20.14.2)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2)
       autoprefixer: 10.4.21(postcss@8.5.3)
       postcss: 8.5.3
       postcss-load-config: 4.0.2(postcss@8.5.3)
-      tailwindcss: 4.0.13
+      tailwindcss: 4.1.11
     transitivePeerDependencies:
       - ts-node
 
@@ -3162,10 +3165,10 @@ snapshots:
 
   '@shikijs/vscode-textmate@10.0.2': {}
 
-  '@tailwindcss/forms@0.5.7(tailwindcss@4.0.13)':
+  '@tailwindcss/forms@0.5.7(tailwindcss@4.1.11)':
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 4.0.13
+      tailwindcss: 4.1.11
 
   '@tailwindcss/node@4.0.13':
     dependencies:
@@ -4695,6 +4698,8 @@ snapshots:
       s.color: 0.0.15
 
   tailwindcss@4.0.13: {}
+
+  tailwindcss@4.1.11: {}
 
   tapable@2.2.1: {}
 
