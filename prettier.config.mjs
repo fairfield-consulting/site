@@ -1,8 +1,7 @@
+import config from '@macklinu/prettier-config'
+
 /** @type {import('prettier').Config} */
 export default {
-  jsxSingleQuote: true,
-  semi: false,
-  singleQuote: true,
-  trailingComma: 'es5',
+  ...config,
   plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
 }

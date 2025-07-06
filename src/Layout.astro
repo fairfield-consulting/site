@@ -1,0 +1,33 @@
+---
+import '@fontsource-variable/playfair-display'
+import '@fontsource-variable/dm-sans'
+import '~/global.css'
+
+const includeAnalytics = import.meta.env.PROD
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='viewport' content='width=device-width' />
+    <meta name='generator' content={Astro.generator} />
+    {
+      includeAnalytics ? (
+        <script
+          defer
+          src='https://analytics.fairfieldconsulting.llc/script.js'
+          data-website-id='d1c4aa75-ec46-4208-9a7e-3d9ece5b9082'
+        />
+      ) : null
+    }
+    <title>Fairfield Consulting LLC</title>
+    <meta
+      name='description'
+      content='A full-service web development consultancy based in Detroit specializing in building custom web experiences'
+    />
+  </head>
+  <body class='scroll-smooth bg-zinc-50 p-8 font-sans dark:bg-zinc-950'>
+    <slot />
+  </body>
+</html>
