@@ -14,7 +14,7 @@
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.2.6",
     "@fontsource-variable/playfair-display": "^5.2.6",
-    "astro": "^5.10.2"
+    "astro": "^5.11.0"
   },
   "devDependencies": {
     "@macklinu/prettier-config": "^0.0.0",
