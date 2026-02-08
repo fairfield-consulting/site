@@ -1,14 +1,14 @@
 ---
-import type { HTMLAttributes } from 'astro/types'
+import type { HTMLAttributes } from "astro/types";
 
-interface Props extends HTMLAttributes<'label'> {}
+interface Props extends HTMLAttributes<"label"> {}
 
-const { class: className, ...props } = Astro.props
+const { class: className, ...props } = Astro.props;
 ---
 
 <label
   class:list={[
-    'block text-sm/6 font-semibold text-zinc-800 dark:text-zinc-200',
+    "block text-sm/6 font-semibold text-zinc-800 dark:text-zinc-200",
     className,
   ]}
   {...props}

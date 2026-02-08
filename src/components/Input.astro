@@ -1,14 +1,14 @@
 ---
-import type { HTMLAttributes } from 'astro/types'
+import type { HTMLAttributes } from "astro/types";
 
-interface Props extends HTMLAttributes<'input'> {}
+interface Props extends HTMLAttributes<"input"> {}
 
-const { class: className, ...props } = Astro.props
+const { class: className, ...props } = Astro.props;
 ---
 
 <input
   class:list={[
-    'block w-full rounded-md bg-black/10 px-3.5 py-2 text-base text-zinc-950 outline-1 -outline-offset-1 outline-black/10 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-500 dark:bg-white/5 dark:text-zinc-50 dark:outline-white/10',
+    "block w-full rounded-md bg-black/10 px-3.5 py-2 text-base text-zinc-950 outline-1 -outline-offset-1 outline-black/10 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-500 dark:bg-white/5 dark:text-zinc-50 dark:outline-white/10",
     className,
   ]}
   {...props}
