@@ -1,0 +1,72 @@
+---
+import Input from "~/components/Input.astro";
+import Label from "~/components/Label.astro";
+import Textarea from "~/components/Textarea.astro";
+---
+
+<section id="contact" class="container px-6 pt-20 pb-12 md:px-8 md:pt-24">
+  <h2
+    class="font-serif text-zinc-950 dark:text-zinc-50 text-4xl leading-tight tracking-tight md:text-5xl max-w-[600px]"
+  >
+    Get in touch
+  </h2>
+  <p
+    class="mt-5 max-w-[520px] text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
+  >
+    Have a project in mind? Let's talk.
+  </p>
+</section>
+
+<section class="container px-6 pb-24 md:px-8">
+  <form
+    class="max-w-[600px] text-zinc-800 dark:text-zinc-200"
+    name="contact"
+    method="POST"
+    data-netlify="true"
+    action="/contact-success"
+  >
+    <input type="hidden" name="form-name" value="contact" />
+    <div class="flex flex-col gap-4">
+      <Label class="flex flex-col gap-2 text-lg" for="name">
+        Name
+        <Input
+          type="text"
+          id="name"
+          name="name"
+          required
+          autocomplete="given-name"
+          placeholder="Your name"
+        />
+      </Label>
+      <Label class="flex flex-col gap-2 text-lg" for="email">
+        Email
+        <Input
+          type="email"
+          id="email"
+          name="email"
+          autocomplete="email"
+          required
+          placeholder="your@email.com"
+        />
+      </Label>
+      <Label class="flex flex-col gap-2 text-lg" for="message">
+        Message
+        <Textarea
+          id="message"
+          name="message"
+          placeholder="Tell me about your project"
+          required
+          rows="4"
+        />
+      </Label>
+      <div class="mt-8">
+        <button
+          type="submit"
+          class="inline-block rounded-lg bg-emerald-800 px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-emerald-900"
+        >
+          Send message
+        </button>
+      </div>
+    </div>
+  </form>
+</section>

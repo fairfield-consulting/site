@@ -1,0 +1,83 @@
+---
+import { ArrowUpRightIcon } from "lucide-react";
+interface Props {
+  label: string;
+  title: string;
+  description: string;
+  tags: string[];
+  link: { href: string; label: string };
+  imagePosition?: "left" | "right";
+}
+
+const {
+  label,
+  title,
+  description,
+  tags,
+  link,
+  imagePosition = "right",
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    "group grid min-h-[420px] overflow-hidden rounded-[14px] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900",
+    "grid-cols-1 md:grid-cols-2",
+  ]}
+>
+  <!-- Info panel -->
+  <div
+    class:list={[
+      "flex flex-col justify-center p-8 md:p-11",
+      imagePosition === "left" && "md:order-2",
+    ]}
+  >
+    <span
+      class="mb-3 text-xs font-semibold uppercase tracking-widest text-emerald-800 dark:text-emerald-500"
+    >
+      {label}
+    </span>
+
+    <h3
+      class="mb-4 font-serif text-2xl leading-snug text-zinc-950 dark:text-zinc-50"
+    >
+      {title}
+    </h3>
+
+    <p
+      class="mb-6 text-[0.95rem] leading-relaxed text-zinc-600 dark:text-zinc-400"
+    >
+      {description}
+    </p>
+
+    <div class="mb-6 flex flex-wrap gap-2">
+      {
+        tags.map((tag) => (
+          <span class="rounded-md bg-zinc-100 dark:bg-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-800 dark:text-zinc-300">
+            {tag}
+          </span>
+        ))
+      }
+    </div>
+
+    <a
+      href={link.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-500 transition-[gap] duration-200 hover:gap-2.5"
+    >
+      {link.label}
+      <ArrowUpRightIcon className="size-3.5" />
+    </a>
+  </div>
+
+  <!-- Visual panel -->
+  <div
+    class:list={[
+      "relative min-h-[280px] overflow-hidden",
+      imagePosition === "left" && "md:order-1",
+    ]}
+  >
+    <slot name="visual" />
+  </div>
+</article>

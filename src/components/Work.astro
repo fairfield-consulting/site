@@ -1,0 +1,62 @@
+---
+import ProjectCard from "~/components/ProjectCard.astro";
+---
+
+<!-- Hero -->
+<section id="work" class="container px-6 pt-20 pb-12 md:px-8 md:pt-24">
+  <h2
+    class="font-serif text-4xl leading-tight text-zinc-950 dark:text-zinc-50 tracking-tight md:text-5xl max-w-[600px]"
+  >
+    Selected work
+  </h2>
+</section>
+
+<!-- Projects -->
+<section class="container flex flex-col gap-14 px-6 pb-24 md:px-8">
+  <!-- OfOne -->
+  <ProjectCard
+    label="Engineering & Architecture"
+    title="Internal Tooling for an AI Restaurant Tech Company"
+    description="Built internal admin tooling for a Y Combinator-backed AI company automating restaurant ordering. Established React and TypeScript patterns to accelerate onboarding for future engineering hires."
+    tags={["React", "TypeScript", "Next.js", "Internal Tools"]}
+    link={{ href: "https://of.one", label: "Visit of.one" }}
+    imagePosition="right"
+  >
+    <div
+      slot="visual"
+      class="flex h-full items-center justify-center bg-linear-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] p-10"
+    >
+      <div class="relative overflow-hidden rounded-lg shadow-2xl">
+        <img
+          src="/images/work/of-one-admin-tool.png"
+          alt="Admin dashboard interface showing enterprise management"
+          class="block w-full"
+        />
+      </div>
+    </div>
+  </ProjectCard>
+
+  <!-- Reciprocity Apps -->
+  <ProjectCard
+    label="Consulting & Mentorship"
+    title="Engineering Enablement for a Civic Tech Nonprofit"
+    description="Partnered with the engineering team at a Michigan-based nonprofit building applications that power community connection. Provided hands-on TypeScript, React, and Next.js mentorship to help accelerate their development practices."
+    tags={["TypeScript", "React", "Next.js", "Mentorship", "Code Review"]}
+    link={{
+      href: "https://reciprocityapps.org",
+      label: "Visit reciprocityapps.org",
+    }}
+    imagePosition="left"
+  >
+    <div
+      slot="visual"
+      class="flex h-full items-center justify-center bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-200 dark:to-zinc-300 p-10"
+    >
+      <img
+        src="/images/work/reciprocity-logo.png"
+        alt="ReciprocityApps logo"
+        class="w-48 h-auto"
+      />
+    </div>
+  </ProjectCard>
+</section>

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@utility container {
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
 @theme {
   --font-sans:
     "DM Sans Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",

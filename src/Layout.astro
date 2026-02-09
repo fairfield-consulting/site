@@ -6,7 +6,7 @@ import "~/global.css";
 const includeAnalytics = import.meta.env.PROD;
 ---
 
-<html lang="en">
+<html class="scroll-smooth" lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -24,10 +24,45 @@ const includeAnalytics = import.meta.env.PROD;
     <title>Fairfield Consulting LLC</title>
     <meta
       name="description"
-      content="A full-service web development consultancy based in Detroit specializing in building custom web experiences"
+      content="I build clean, fast websites and web apps for startups and small businesses."
     />
   </head>
-  <body class="scroll-smooth bg-zinc-50 p-8 font-sans dark:bg-zinc-950">
-    <slot />
+  <body class="bg-zinc-50 font-sans dark:bg-zinc-950">
+    <nav
+      class="sticky top-0 z-50 border-b border-zinc-200 bg-zinc-50/80 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80"
+    >
+      <div
+        class="container flex items-center justify-between px-6 py-4 md:px-8"
+      >
+        <a href="/" class="font-serif text-lg text-zinc-950 dark:text-zinc-50"
+          >Fairfield Consulting</a
+        >
+        <div class="flex gap-8">
+          <a
+            href="#home"
+            class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >Home</a
+          >
+          <a
+            href="#work"
+            class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >Work</a
+          >
+          <a
+            href="#about"
+            class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >About</a
+          >
+          <a
+            href="#contact"
+            class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </nav>
+    <div class="p-8">
+      <slot />
+    </div>
   </body>
 </html>
