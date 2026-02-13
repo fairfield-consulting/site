@@ -7,7 +7,13 @@ export default defineConfig({
   output: "static",
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      host: true,
+      watch: {
+        ignored: ["**/.alchemy/**"],
+      },
+    },
   },
-  site: "https://fairfieldconsulting.llc",
+  site: import.meta.env.PROD ? "https://fairfieldconsulting.llc" : "http://localhost:4321",
   integrations: [react()],
 });
