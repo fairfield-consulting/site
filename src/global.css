@@ -10,4 +10,9 @@
     "DM Sans Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: "Playfair Display Variable", "Georgia", Cambria, "Times New Roman", Times, serif;
+
+  /* Custom max-width values for prose content */
+  --container-prose-narrow: 540px;
+  --container-prose: 600px;
+  --container-prose-wide: 700px;
 }
