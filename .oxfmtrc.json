@@ -1,10 +1,8 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "experimentalSortPackageJson": {
-    "sortScripts": true
-  },
-  "experimentalSortImports": {},
-  "experimentalTailwindcss": {
+  "sortPackageJson": true,
+  "sortImports": true,
+  "sortTailwindcss": {
     "attributes": ["class", "class:list", "className"]
   },
   "ignorePatterns": []

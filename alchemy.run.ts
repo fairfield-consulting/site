@@ -1,18 +1,23 @@
-import alchemy from "alchemy";
-import { Astro } from "alchemy/cloudflare";
-import { CloudflareStateStore } from "alchemy/state";
+import * as Alchemy from "alchemy";
+import { Stage } from "alchemy";
+import * as Cloudflare from "alchemy/Cloudflare";
+import * as Effect from "effect/Effect";
 
-const app = await alchemy("fairfield-consulting", {
-  stateStore: (scope) => new CloudflareStateStore(scope),
-});
+export default Alchemy.Stack(
+  "fairfield-consulting",
+  { providers: Cloudflare.providers() },
+  Effect.gen(function* () {
+    const stage = yield* Stage;
+    const worker = yield* Cloudflare.StaticSite("website", {
+      main: "./src/static-worker.ts",
+      command: "bun run build",
+      outdir: "dist",
+      ...(stage === "prod" ? { domain: "fairfieldconsulting.llc" } : {}),
+      assetsConfig: {
+        htmlHandling: "drop-trailing-slash",
+      },
+    });
 
-export const worker = await Astro("website", {
-  routes: ["fairfieldconsulting.llc/*"],
-  assets: {
-    html_handling: "drop-trailing-slash",
-  },
-});
-
-console.log(worker.url);
-
-await app.finalize();
+    return { url: worker.url };
+  }),
+);
