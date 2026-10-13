@@ -5,7 +5,7 @@
 ## 🧞 Commands
 
 Use Node 24 (see `.nvmrc`) and pnpm 12.11.2 (see `package.json`).
-Alchemy requires Node 24.11.1 or newer for its TypeScript module loader.
+Alchemy requires at least Node 24.11.1 on the Node 24 line for its TypeScript loader.
 Install the native pnpm 12 executable using the
 [pnpm installation guide](https://pnpm.io/installation). Older Corepack shims do not
 support its package layout.
