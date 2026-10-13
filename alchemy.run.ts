@@ -10,7 +10,7 @@ export default Alchemy.Stack(
     const stage = yield* Stage;
     const worker = yield* Cloudflare.StaticSite("website", {
       main: "./src/static-worker.ts",
-      command: "bun run build",
+      command: "pnpm run build",
       outdir: "dist",
       ...(stage === "prod" ? { domain: "fairfieldconsulting.llc" } : {}),
       assetsConfig: {
