@@ -2,26 +2,27 @@
 
 ---
 
-<section id="about" class="container px-6 pt-20 pb-24 md:px-8">
+<section id="about" class="py-28 max-md:py-18">
   <h2
-    class="font-serif text-zinc-950 dark:text-zinc-50 text-4xl leading-tight tracking-tight md:text-5xl max-w-prose"
+    class="max-w-[11ch] min-w-0 m-0 wrap-anywhere font-editorial text-section text-site-ink"
   >
     About
   </h2>
-  <div class="mt-8 grid gap-12 md:grid-cols-2 md:gap-16">
+  <div
+    class="mt-18 grid grid-cols-[minmax(0,1.1fr)_minmax(14rem,0.9fr)] gap-12 md:gap-16 lg:gap-20 xl:gap-24 max-md:mt-12 max-md:grid-cols-1"
+  >
     <div
-      class="flex flex-col gap-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
+      class="max-w-[37rem] text-[clamp(1.0625rem,1.3vw,1.25rem)] leading-[1.65] text-site-muted [&_p]:m-0 [&_p+p]:mt-6 [&_strong]:font-[670] [&_strong]:text-site-ink"
     >
       <p>
         I'm <a
           href="https://linkedin.com/in/macklinu"
-          class="text-zinc-900 dark:text-zinc-100 underline underline-offset-2 hover:text-emerald-800 dark:hover:text-emerald-400"
+          class="font-[640] text-site-ink decoration-site-accent decoration-1 underline underline-offset-[0.2em] focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4"
           >Macklin Underdown</a
         >, a Detroit-based software engineer with 12+ years of professional
         experience. In my day job, I've shipped production software at companies
-        including <strong class="text-zinc-900 dark:text-zinc-100">MLB</strong> and{" "}
-        <strong class="text-zinc-900 dark:text-zinc-100">Docusign</strong>,
-        working primarily on the frontend.
+        including <strong>MLB</strong> and{" "}
+        <strong>Docusign</strong>, working primarily on the frontend.
       </p>
       <p>
         Fairfield Consulting is my independent consultancy. I work with startups
@@ -29,13 +30,13 @@
         right.
       </p>
     </div>
-    <div>
-      <h3
-        class="text-sm font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4"
-      >
+    <div class="self-start">
+      <h3 class="m-0 text-sm font-[660] tracking-[0.01em] text-site-ink">
         What I focus on
       </h3>
-      <ul class="flex flex-wrap gap-2">
+      <ul
+        class="m-0 mt-6 flex flex-wrap gap-x-6 gap-y-3 p-0 text-sm text-site-muted list-none [&_li]:before:mr-1 [&_li]:before:text-site-accent [&_li]:before:content-['—']"
+      >
         {
           [
             "React",
@@ -44,11 +45,7 @@
             "Performance",
             "Accessibility",
             "Responsive Design",
-          ].map((tech) => (
-            <li class="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3.5 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              {tech}
-            </li>
-          ))
+          ].map((tech) => <li>{tech}</li>)
         }
       </ul>
     </div>
