@@ -6,7 +6,10 @@ import "~/global.css";
 const includeAnalytics = import.meta.env.PROD;
 ---
 
-<html class="scroll-smooth" lang="en">
+<html
+  class="scroll-smooth overflow-x-clip scroll-pt-28 bg-site"
+  lang="en"
+>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -27,42 +30,44 @@ const includeAnalytics = import.meta.env.PROD;
       content="I build clean, fast websites and web apps for startups and small businesses."
     />
   </head>
-  <body class="bg-zinc-50 font-sans dark:bg-zinc-950">
+  <body
+    class="min-w-80 overflow-x-clip bg-site font-site text-body leading-[1.55] text-site-ink [text-rendering:optimizeLegibility]"
+  >
     <nav
-      class="sticky top-0 z-50 border-b border-zinc-200 bg-zinc-50/80 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80"
+      class="sticky top-0 z-10 border-b border-site-rule bg-site/95 backdrop-blur"
+      aria-label="Primary navigation"
     >
       <div
-        class="container flex items-center justify-between px-6 py-4 md:px-8"
+        class="mx-auto flex min-h-17 w-[min(calc(100%-3rem),72rem)] items-center justify-between gap-8 max-md:min-h-15 max-md:w-[min(calc(100%-2rem),72rem)] max-md:gap-4"
       >
-        <a href="/" class="font-serif text-lg text-zinc-950 dark:text-zinc-50"
+        <a
+          href="/"
+          class="whitespace-nowrap font-editorial text-lg font-[560] tracking-[-0.035em] text-site-ink no-underline focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4 max-md:text-[0.9375rem]"
           >Fairfield Consulting</a
         >
-        <div class="flex gap-8">
-          <a
-            href="#home"
-            class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-            >Home</a
-          >
-          <a
-            href="#work"
-            class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-            >Work</a
-          >
-          <a
-            href="#about"
-            class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-            >About</a
-          >
-          <a
-            href="#contact"
-            class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-            >Contact</a
-          >
-        </div>
+        <ul class="m-0 flex list-none items-center gap-8 p-0 max-md:gap-4">
+          {
+            [
+              ["#work", "Work"],
+              ["#about", "About"],
+              ["#contact", "Contact"],
+            ].map(([href, label]) => (
+              <li>
+                <a
+                  href={href}
+                  class="whitespace-nowrap text-xs font-[620] tracking-[0.01em] text-site-muted no-underline transition-colors hover:text-site-accent focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4 max-md:text-[0.6875rem]"
+                  >{label}</a
+                >
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </nav>
-    <div class="p-8">
+    <main
+      class="mx-auto w-[min(calc(100%-3rem),72rem)] pb-40 max-md:w-[min(calc(100%-2rem),72rem)]"
+    >
       <slot />
-    </div>
+    </main>
   </body>
 </html>

@@ -1,7 +1,6 @@
 ---
 import { ArrowUpRightIcon } from "lucide-react";
 interface Props {
-  label: string;
   title: string;
   description: string;
   tags: string[];
@@ -9,73 +8,54 @@ interface Props {
   imagePosition?: "left" | "right";
 }
 
-const {
-  label,
-  title,
-  description,
-  tags,
-  link,
-  imagePosition = "right",
-} = Astro.props;
+const { title, description, tags, link, imagePosition = "right" } = Astro.props;
 ---
 
 <article
   class:list={[
-    "group grid min-h-[420px] overflow-hidden rounded-[14px] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900",
-    "grid-cols-1 md:grid-cols-2",
+    "grid min-h-[31rem] border-b border-site-rule md:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] max-md:min-h-0",
+    imagePosition === "left" &&
+      "md:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]",
   ]}
 >
-  <!-- Info panel -->
   <div
     class:list={[
-      "flex flex-col justify-center p-8 md:p-11",
-      imagePosition === "left" && "md:order-2",
+      "flex flex-col items-start justify-center px-0 py-18 md:p-12 lg:px-16 lg:py-18",
+      imagePosition === "left" && "md:col-start-2",
     ]}
   >
-    <span
-      class="mb-3 text-xs font-semibold uppercase tracking-widest text-emerald-800 dark:text-emerald-500"
-    >
-      {label}
-    </span>
-
     <h3
-      class="mb-4 font-serif text-2xl leading-snug text-zinc-950 dark:text-zinc-50"
+      class="max-w-[16ch] min-w-0 m-0 wrap-anywhere font-editorial text-[clamp(1.9rem,3vw,3.25rem)] leading-none font-[480] tracking-[-0.045em] text-site-ink"
     >
       {title}
     </h3>
-
-    <p
-      class="mb-6 text-[0.95rem] leading-relaxed text-zinc-600 dark:text-zinc-400"
-    >
+    <p class="max-w-xl mt-6 mb-0 text-[0.9375rem] leading-[1.65] text-site-muted">
       {description}
     </p>
-
-    <div class="mb-6 flex flex-wrap gap-2">
+    <ul
+      class="m-0 mt-8 flex flex-wrap gap-x-1.5 gap-y-1 p-0 text-xs font-medium text-site-muted list-none"
+      aria-label="Technologies"
+    >
       {
-        tags.map((tag) => (
-          <span class="rounded-md bg-zinc-100 dark:bg-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-800 dark:text-zinc-300">
-            {tag}
-          </span>
+        tags.map((tag, index) => (
+          <li>{tag}{index < tags.length - 1 ? "," : ""}</li>
         ))
       }
-    </div>
-
+    </ul>
     <a
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-500 transition-[gap] duration-200 hover:gap-2.5"
+      class="mt-8 inline-flex items-center gap-2 whitespace-nowrap text-sm font-bold text-site-accent no-underline transition-colors hover:text-site-accent-strong focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4"
     >
       {link.label}
-      <ArrowUpRightIcon className="size-3.5" />
+      <ArrowUpRightIcon aria-hidden="true" className="size-3.5" />
     </a>
   </div>
-
-  <!-- Visual panel -->
   <div
     class:list={[
-      "relative min-h-[280px] overflow-hidden",
-      imagePosition === "left" && "md:order-1",
+      "relative min-h-76 overflow-hidden max-md:min-h-68 max-md:mb-18",
+      imagePosition === "left" && "md:col-start-1 md:row-start-1",
     ]}
   >
     <slot name="visual" />
