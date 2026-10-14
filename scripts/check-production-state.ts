@@ -21,6 +21,7 @@ const check = Effect.gen(function* () {
   const fs = yield* FileSystem.FileSystem;
   // A preflight must not resume a local, incomplete backend bootstrap.
   const dotAlchemy = yield* fs.makeTempDirectoryScoped({ prefix: "alchemy-prod-check-" });
+  // This reader needs Alchemy's fail-closed/no-new-credential-cache mode even outside CI.
   const config = ConfigProvider.orElse(
     ConfigProvider.fromEnv({ env: { CI: "true" } }),
     environment,
