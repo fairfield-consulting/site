@@ -8,6 +8,8 @@
     "astro": "astro",
     "build": "astro build",
     "deploy": "pnpm alchemy deploy",
+    "deploy:prod": "pnpm run state:check:prod && pnpm alchemy deploy --stage prod --yes",
+    "state:check:prod": "node scripts/check-production-state.ts",
     "destroy": "pnpm alchemy destroy",
     "dev": "astro dev --port 3000",
     "prepare": "husky",
