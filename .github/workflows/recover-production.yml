@@ -1,19 +1,19 @@
-name: Site production recovery
+name: Site production operations
 
 on:
   workflow_dispatch:
     inputs:
       operation:
-        description: Inspection/plan do not upload the site; initialization/apply/rollback write live state/resources
+        description: Inspect identity/version metadata or roll back reviewed site version traffic
         type: choice
-        options: [inspect, initialize-build, plan, apply, rollback]
+        options: [inspect, rollback]
         required: true
       source_sha:
         description: Exact current main commit reviewed for this operation
         type: string
         required: true
       review_run:
-        description: Successful prior inspection (init), Build-init (plan), plan (apply), or backup (rollback) run ID
+        description: Successful backup inspection run ID for rollback
         type: string
       review_digest:
         description: SHA-256 artifact archive digest from that reviewed run (without sha256 prefix)
@@ -22,7 +22,7 @@ on:
         description: Rollback only — separately reviewed CURRENT deployment ID, not the backup target
         type: string
       confirmation:
-        description: Explicit write confirmation phrase from README; empty for inspection/plan
+        description: Explicit rollback confirmation phrase from README; empty for inspection
         type: string
 
 permissions:
@@ -51,8 +51,6 @@ jobs:
           node-version-file: .nvmrc
       - run: pnpm install --frozen-lockfile
       - run: pnpm run check:ci
-      - if: inputs.operation == 'plan' || inputs.operation == 'apply'
-        run: pnpm build
       - id: recovery
         run: node scripts/production-recovery.ts
         env:

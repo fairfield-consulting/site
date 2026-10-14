@@ -62,39 +62,22 @@ trusted deployment operators. If that is not acceptable, do not merge until
 separately approved, verified secret and workflow protection is in place; an
 environment name alone is not protection.
 
-### Actions rollout
+### Actions
 
-The workflows must first be merged/registered on main. That does not automatically
-build an already-open PR. No cloud preview or recovery has run merely because this
-pipeline exists.
+The workflows run from main. Run **Site PR preview** with the UI PR number, then
+review its URL, exact built SHA, mobile/desktop layout, keyboard focus and assets
+before approving a production merge. An already-open PR needs an explicit preview
+dispatch; registering the workflow does not build it.
 
-1. With approval, run **Site PR preview** on main with the UI PR number. Review its
-   returned URL, exact built SHA, mobile/desktop layout, keyboard focus and assets
-   before any production or UI merge.
-2. Obtain separate production recovery approval. Run **Site production recovery →
-   inspect** with the current main SHA. Review the exact apex owner, version traffic,
-   permissions and state health. Retain the inspection artifact and its digest
-   beyond Actions retention; it records rollback references, **not a state backup**.
-3. Separately approve **initialize-build** using that inspection run/digest. This
-   executes the native Build and writes state; it does not upload the site.
-4. Run **plan** using the successful initialization run/digest. Review the native
-   exact-owner adoption selection and build digest. This does not apply the plan.
-5. Separately approve **apply** with that plan run/digest and the same unchanged
-   main SHA. It rechecks the live owner/version and native plan before upload;
-   changed source, state, bindings or owner stops the operation. Brief downtime
-   remains a rollout risk.
-6. Run **Deploy Application** on main to verify an independent fresh runner uses
-   migrated state and the normal no-adoption path. Review the rendered site before
-   separately approving the UI PR merge.
+Use **Site production operations → inspect** with the current main SHA to review
+the exact apex owner, version traffic and state health. Retain the inspection
+artifact and its digest; it records rollback references, **not a state backup**.
+Automated rollback requires an unexpired successful inspection artifact. Keep a
+separate copy for later recovery review.
 
-Write operations require these exact confirmation phrases; other operations leave
-confirmation empty:
-
-| Operation          | Confirmation                                                  |
-| ------------------ | ------------------------------------------------------------- |
-| `initialize-build` | `initialize-build <source_sha>`                               |
-| `apply`            | `apply <review_run> <review_digest>`                          |
-| `rollback`         | `rollback <review_run> <review_digest> <expected_deployment>` |
+Only separately approved **rollback** writes live version traffic. Its confirmation
+is `rollback <review_run> <review_digest> <expected_deployment>`; inspection leaves
+confirmation empty.
 
 ### Permissions and rollback
 
@@ -106,13 +89,13 @@ zero-side-effect cloud read. Missing/incompatible backend or permissions stops C
 Do not add global-admin credentials or force-bootstrap to make it pass.
 See [Alchemy's Cloudflare CI guide](https://alchemy.run/environments/ci/#cloudflare).
 
-Before live recovery, confirm the retained versions are deployable with usable
+Before rollback, confirm the retained versions are deployable with usable
 assets/bindings. No workflow deletes the existing apex owner or overrides its
 binding. Independent repos retain their own exact host/path and Worker ownership;
 no wildcard or whole-zone takeover belongs in app CI.
 
 On failure, stop writers and preserve authoritative state, including incomplete
-records. **rollback** uses a reviewed inspection/plan/apply artifact, its exact
+records. **rollback** uses a reviewed inspection artifact, its exact
 Worker versions and a separately reviewed current deployment ID. It changes only
 version traffic, not domains, routes, secrets, backend or Alchemy state. API refusal
 has no force fallback. Verify the site afterward and review source/state before

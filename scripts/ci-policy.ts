@@ -203,68 +203,6 @@ function assertCleanNode(node: Plan["resources"][string]) {
   );
 }
 
-export function recoveryPlan(
-  plan: Plan,
-  operation: "initialize-build" | "plan",
-  accountId: string,
-) {
-  const expected =
-    operation === "initialize-build" ? ["website/Build"] : ["website", "website/Build"];
-  requireCondition(
-    !plan.destroy &&
-      Object.keys(plan.deletions).length === 0 &&
-      Object.keys(plan.actionDeletions).length === 0 &&
-      Object.keys(plan.actions).length === 0,
-    "Recovery cannot delete or run unrelated actions.",
-  );
-  requireCondition(
-    plan.output === undefined &&
-      plan.selectedFqns !== undefined &&
-      [...plan.selectedFqns].sort().join() === expected.slice().sort().join(),
-    "Recovery must use the exact closed native selection.",
-  );
-  requireCondition(
-    Object.keys(plan.resources).sort().join() === expected.slice().sort().join(),
-    "Unexpected recovery resource.",
-  );
-  return expected.map((fqn) => {
-    const node = plan.resources[fqn];
-    assertCleanNode(node);
-    requireCondition(node.resource.FQN === fqn, "Wrong native resource identity.");
-    if (fqn === "website/Build") {
-      requireCondition(node.resource.Type === "Command.Build", "Not the native Build resource.");
-      requireCondition(
-        operation === "initialize-build"
-          ? ["create", "noop", "update"].includes(node.action)
-          : node.action === "noop",
-        "Build must be resolved and unchanged before owner adoption.",
-      );
-    } else {
-      requireCondition(
-        node.resource.Type === "Cloudflare.Worker" &&
-          node.action === "adopted" &&
-          "adopting" in node &&
-          node.adopting === true,
-        "Expected explicit cold exact-owner adoption, not creation/update.",
-      );
-      requireCondition(
-        node.state?.attr?.workerName === PROD_WORKER &&
-          node.state.attr.accountId === accountId &&
-          node.state.attr.domain?.name === APEX &&
-          node.state.attr.tags?.includes("alchemy:stack:fairfield-consulting") &&
-          node.state.attr.tags?.includes("alchemy:stage:prod"),
-        "Native ownership probe selected another Worker/account/domain/stage.",
-      );
-    }
-    return {
-      fqn,
-      type: node.resource.Type,
-      action: node.action,
-      providerMode: node.mode ?? "live",
-    };
-  });
-}
-
 export function previewPlan(
   plan: Plan,
   identity: PreviewIdentity,
