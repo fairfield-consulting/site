@@ -1,0 +1,15 @@
+allowBuilds:
+  esbuild: true
+  msgpackr-extract: true
+  sharp: true
+  workerd: true
+
+overrides:
+  # Keep the Node platform implementation compatible with the pinned Effect beta.
+  "@effect/platform-node-shared": 4.0.0-beta.48
+
+packageExtensions:
+  # Give capnp's optional compiler its supported version without changing the site compiler.
+  capnp-es@0.0.14:
+    optionalDependencies:
+      typescript: 5.9.3
