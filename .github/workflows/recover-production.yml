@@ -1,0 +1,81 @@
+name: Site production recovery
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Inspection/plan do not upload the site; initialization/apply/rollback write live state/resources
+        type: choice
+        options: [inspect, initialize-build, plan, apply, rollback]
+        required: true
+      source_sha:
+        description: Exact current main commit reviewed for this operation
+        type: string
+        required: true
+      review_run:
+        description: Successful prior inspection (init), Build-init (plan), plan (apply), or backup (rollback) run ID
+        type: string
+      review_digest:
+        description: SHA-256 artifact archive digest from that reviewed run (without sha256 prefix)
+        type: string
+      expected_deployment:
+        description: Rollback only — separately reviewed CURRENT deployment ID, not the backup target
+        type: string
+      confirmation:
+        description: Explicit write confirmation phrase from README; empty for inspection/plan
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: alchemy-fairfield-consulting-prod
+  cancel-in-progress: false
+
+env:
+  CI: "true"
+
+jobs:
+  recovery:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check:ci
+      - if: inputs.operation == 'plan' || inputs.operation == 'apply'
+        run: pnpm build
+      - id: recovery
+        run: node scripts/production-recovery.ts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RECOVERY_OPERATION: ${{ inputs.operation }}
+          RECOVERY_SOURCE: ${{ inputs.source_sha }}
+          REVIEW_RUN: ${{ inputs.review_run }}
+          REVIEW_DIGEST: ${{ inputs.review_digest }}
+          EXPECTED_DEPLOYMENT: ${{ inputs.expected_deployment }}
+          RECOVERY_CONFIRMATION: ${{ inputs.confirmation }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - id: review
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-recovery-review
+          path: ${{ steps.recovery.outputs.review_directory }}/review.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Show review identity
+        env:
+          REVIEW_DIGEST: ${{ steps.review.outputs.artifact-digest }}
+          REVIEW_ARTIFACT: ${{ steps.review.outputs.artifact-id }}
+        run: |
+          printf 'Review run: %s; artifact: %s; archive SHA-256: %s\n' "$GITHUB_RUN_ID" "$REVIEW_ARTIFACT" "$REVIEW_DIGEST" >> "$GITHUB_STEP_SUMMARY"

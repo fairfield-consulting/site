@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+permissions:
+  contents: read
 concurrency:
   group: alchemy-fairfield-consulting-prod
   cancel-in-progress: false
@@ -10,9 +13,13 @@ env:
   CI: "true"
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
       - name: Setup Node
@@ -22,6 +29,8 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Check infrastructure types
+        run: pnpm run check:ci
       - name: Deploy
         run: pnpm run deploy:prod
         env:

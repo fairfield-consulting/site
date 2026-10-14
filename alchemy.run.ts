@@ -3,9 +3,11 @@ import { Stage } from "alchemy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 
+import { ciState } from "./scripts/ci-state.ts";
+
 export default Alchemy.Stack(
   "fairfield-consulting",
-  { providers: Cloudflare.providers(), state: Cloudflare.state() },
+  { providers: Cloudflare.providers(), state: ciState },
   Effect.gen(function* () {
     const stage = yield* Stage;
     const worker = yield* Cloudflare.Website.StaticSite("website", {

@@ -29,50 +29,92 @@ Run all commands from the root of the project:
 Site development uses Astro directly. Alchemy development runs the local Worker
 without a production deployment. The Alchemy CLI always runs with Node.
 
-## Production state
+## CI previews and production state
 
-Fresh CI runners do not retain local deployment state. Production needs durable
-state so each deployment knows which existing site Worker it manages, instead of
-treating the live domain as a new resource.
+Fresh CI runners do not retain local deployment state. Durable state tells each
+deployment which existing Worker it manages, instead of treating the live domain
+as a new resource.
 
 Authoritative state lives in the Cloudflare account's native Alchemy state store,
-behind the `alchemy-state-store` Worker. Cloudflare holds the encrypted state and
-its auth/encryption secrets; CI does not use runner files or GitHub artifacts as
-its source of deployment state. The backend is account-shared; separate stacks
-and stages keep application state apart.
-Do not commit `.alchemy/`, state exports, credential files, or secret values.
+behind `alchemy-state-store`. CI reuses its protocol-7 backend; app workflows
+cannot bootstrap or upgrade it. Cloudflare holds the encrypted state and its
+auth/encryption secrets, not runner files or GitHub artifacts. Separate stacks and
+stages keep resource identities apart, but **the backend and its credentials are
+account-shared**. Check every consumer before a separately approved backend change.
 See [Alchemy's state-store documentation](https://alchemy.run/state-store/).
+Never commit state, credential files or secret values.
 
-Use `pnpm run deploy:prod` for normal production deployments. The guard protects
-the existing site when deployment identity is uncertain, and serialized writers
-prevent competing updates to the same state. Do not bypass it to repair state or
-run a local production writer alongside CI.
+Normal production deployment belongs to **Deploy Application** on main. Its guard
+stops deployment when the saved apex-owner identity is uncertain. Production and
+recovery share one writer queue; do not run competing local writers or bypass the
+guard. Use `pnpm dev` locally. Alchemy's developer stage is separate from `prod`;
+development state is not a production backup.
 
-Use `pnpm dev` for site development. Alchemy's default developer stage is
-`dev_$USER`, isolated from `prod` even though the native store is account-shared.
-Never use `--stage prod` for local development. Development state is not a
-production backup.
+**Site PR preview** builds a selected same-repository PR without deployment
+secrets, then deploys static data through trusted main infrastructure. Each PR has
+a stable workers.dev URL and its own state/Worker; closing it removes only that
+preview. Previews never claim the apex, a subdomain or a zone route. Dispatch again
+to preview an updated head. Fork and Dependabot PRs cannot deploy.
 
-### Operator boundaries
+This separation protects PR app/build execution, **not repository secrets from a
+workflow author**. Contributors who can change same-repository workflows are
+trusted deployment operators. If that is not acceptable, do not merge until
+separately approved, verified secret and workflow protection is in place; an
+environment name alone is not protection.
 
-Use the existing account-scoped Cloudflare credentials with permission for the
-site and native state backend. Native CI authentication uses edge-preview
-operations; state access is not a zero-side-effect cloud read. Do not solve a
-permission failure by granting account-wide access.
+### Actions rollout
 
-Backend bootstrap and upgrades can affect every app sharing the store. Confirm
-compatibility with the installed Alchemy version and those apps before any
-backend change; bootstrap can redeploy a mismatched store without `--force`.
-Keep backend changes and other production writers paused during deployment.
-Use the [supported Cloudflare commands](https://alchemy.run/cli/cloudflare/),
-not hand-built state or copied credentials.
+The workflows must first be merged/registered on main. That does not automatically
+build an already-open PR. No cloud preview or recovery has run merely because this
+pipeline exists.
 
-Bootstrap, recovery and live apply require separate approval. Before a live
-change, confirm the current domain owner and a usable rollback version, including
-its assets and bindings. On failure, stop writers and preserve the state backend,
-including incomplete records. Do not clear state to force another create, delete
-the current owner, or override its domain binding.
+1. With approval, run **Site PR preview** on main with the UI PR number. Review its
+   returned URL, exact built SHA, mobile/desktop layout, keyboard focus and assets
+   before any production or UI merge.
+2. Obtain separate production recovery approval. Run **Site production recovery →
+   inspect** with the current main SHA. Review the exact apex owner, version traffic,
+   permissions and state health. Retain the inspection artifact and its digest
+   beyond Actions retention; it records rollback references, **not a state backup**.
+3. Separately approve **initialize-build** using that inspection run/digest. This
+   executes the native Build and writes state; it does not upload the site.
+4. Run **plan** using the successful initialization run/digest. Review the native
+   exact-owner adoption selection and build digest. This does not apply the plan.
+5. Separately approve **apply** with that plan run/digest and the same unchanged
+   main SHA. It rechecks the live owner/version and native plan before upload;
+   changed source, state, bindings or owner stops the operation. Brief downtime
+   remains a rollout risk.
+6. Run **Deploy Application** on main to verify an independent fresh runner uses
+   migrated state and the normal no-adoption path. Review the rendered site before
+   separately approving the UI PR merge.
 
-[Cloudflare version rollback](https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/)
-does not restore Alchemy state or external resources. Reconcile code and
-authoritative state before normal deployments resume.
+Write operations require these exact confirmation phrases; other operations leave
+confirmation empty:
+
+| Operation          | Confirmation                                                  |
+| ------------------ | ------------------------------------------------------------- |
+| `initialize-build` | `initialize-build <source_sha>`                               |
+| `apply`            | `apply <review_run> <review_digest>`                          |
+| `rollback`         | `rollback <review_run> <review_digest> <expected_deployment>` |
+
+### Permissions and rollback
+
+The existing `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` and, when applicable,
+`CLOUDFLARE_EMAIL` secrets must already authorize the exact site, backend credential
+access, domain inspection and visible-zone route inspection. Native state
+authentication uses temporary edge-preview operations; inspection is not a
+zero-side-effect cloud read. Missing/incompatible backend or permissions stops CI.
+Do not add global-admin credentials or force-bootstrap to make it pass.
+See [Alchemy's Cloudflare CI guide](https://alchemy.run/environments/ci/#cloudflare).
+
+Before live recovery, confirm the retained versions are deployable with usable
+assets/bindings. No workflow deletes the existing apex owner or overrides its
+binding. Independent repos retain their own exact host/path and Worker ownership;
+no wildcard or whole-zone takeover belongs in app CI.
+
+On failure, stop writers and preserve authoritative state, including incomplete
+records. **rollback** uses a reviewed inspection/plan/apply artifact, its exact
+Worker versions and a separately reviewed current deployment ID. It changes only
+version traffic, not domains, routes, secrets, backend or Alchemy state. API refusal
+has no force fallback. Verify the site afterward and review source/state before
+resuming normal deployment; a later main deployment can replace the rollback.
+See [Cloudflare rollback limits](https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/).

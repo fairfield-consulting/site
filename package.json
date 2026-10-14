@@ -10,6 +10,7 @@
     "deploy": "pnpm alchemy deploy",
     "deploy:prod": "pnpm run state:check:prod && pnpm alchemy deploy --stage prod --yes",
     "state:check:prod": "node scripts/check-production-state.ts",
+    "check:ci": "tsc --project tsconfig.ci.json",
     "destroy": "pnpm alchemy destroy",
     "dev": "astro dev --port 3000",
     "prepare": "husky",
@@ -26,8 +27,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260623.1",
+    "@distilled.cloud/cloudflare": "1.0.0-rc.15",
     "@effect/platform-node": "4.0.4",
     "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "24.19.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "alchemy": "2.0.0-beta.83",

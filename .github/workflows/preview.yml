@@ -1,0 +1,116 @@
+name: Site PR preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: Open same-repository PR number (closed PRs clean up only)
+        required: true
+        type: string
+  pull_request_target:
+    types: [closed]
+
+permissions: {}
+
+concurrency:
+  group: site-preview-pr-${{ inputs.pr || github.event.pull_request.number }}
+  cancel-in-progress: false
+
+env:
+  CI: "true"
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      pr: ${{ steps.request.outputs.pr }}
+      head: ${{ steps.request.outputs.head }}
+      state: ${{ steps.request.outputs.state }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - id: request
+        run: node scripts/preview-request.ts
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  build:
+    needs: resolve
+    if: github.event_name == 'workflow_dispatch' && needs.resolve.outputs.state == 'open'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      artifact_id: ${{ steps.assets.outputs.artifact-id }}
+      artifact_digest: ${{ steps.assets.outputs.artifact-digest }}
+    steps:
+      # Both checkouts are secretless. Only this runner executes PR packages/config.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          path: trusted-ci
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.resolve.outputs.head }}
+          path: site
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: trusted-ci/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: trusted-ci/.nvmrc
+      - run: pnpm install --frozen-lockfile
+        working-directory: site
+      - run: pnpm build
+        working-directory: site
+      - run: node trusted-ci/scripts/ci-assets.ts site/dist
+      - id: assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-preview-${{ needs.resolve.outputs.pr }}-${{ needs.resolve.outputs.head }}
+          path: site/dist/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+
+  control:
+    needs: [resolve, build]
+    # A failed/late build must not prevent cleanup when the current PR has closed.
+    if: always() && needs.resolve.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      # No executable cache is shared with the PR runner.
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check:ci
+      - run: node scripts/preview-ci.ts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PREVIEW_PR: ${{ needs.resolve.outputs.pr }}
+          PREVIEW_HEAD: ${{ needs.resolve.outputs.head }}
+          PREVIEW_ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
+          PREVIEW_ARTIFACT_DIGEST: ${{ needs.build.outputs.artifact_digest }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
