@@ -4,10 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "alchemy": "node node_modules/alchemy/bin/alchemy.js",
+    "alchemy": "node node_modules/alchemy/bin/cli.js",
     "astro": "astro",
     "build": "astro build",
     "deploy": "pnpm alchemy deploy",
+    "deploy:prod": "pnpm run state:check:prod && pnpm alchemy deploy --stage prod --yes",
+    "state:check:prod": "node scripts/check-production-state.ts",
     "destroy": "pnpm alchemy destroy",
     "dev": "astro dev --port 3000",
     "prepare": "husky",
@@ -24,12 +26,12 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260623.1",
-    "@effect/platform-node": "4.0.0-beta.48",
+    "@effect/platform-node": "4.0.4",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "alchemy": "^2.0.0-beta.57",
-    "effect": "4.0.0-beta.48",
+    "alchemy": "2.0.0-beta.83",
+    "effect": "4.0.4",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "oxfmt": "^0.56.0",
@@ -37,6 +39,9 @@
     "tailwindcss": "^4.1.18",
     "typescript": "^7.0.1-rc",
     "vite": "^8.1.0"
+  },
+  "engines": {
+    "node": "^24.11.1 || >=25.1.0"
   },
   "packageManager": "pnpm@12.11.2"
 }
