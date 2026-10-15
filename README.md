@@ -29,13 +29,6 @@ Run all commands from the root of the project:
 Site development uses Astro directly. Alchemy development runs the local Worker
 without a production deployment. The Alchemy CLI always runs with Node.
 
-## PR previews
-
-Same-repository PRs to main get a preview before production; forks are excluded.
-Preview CI trusts PR code with deployment credentials, and stage isolation is not
-a permissions sandbox. GitHub can skip workflows for conflicted PRs, so closing
-one without merging can leave its preview behind.
-
 ## Production state
 
 Fresh CI runners do not retain local deployment state. Production needs durable

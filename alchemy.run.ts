@@ -18,6 +18,7 @@ export default Alchemy.Stack(
           Effect.gen(function* () {
             const context = yield* AlchemyContext;
             const stage = yield* Stage;
+            // Preview --yes must not bootstrap or upgrade the account-shared backend.
             return /^pr-[1-9][0-9]*$/.test(stage)
               ? { ...context, updateStateStore: false }
               : context;
@@ -29,6 +30,7 @@ export default Alchemy.Stack(
   Effect.gen(function* () {
     const stage = yield* Stage;
     const isPreview = /^pr-[1-9][0-9]*$/.test(stage);
+    const github = yield* GitHub.GitHubEnv;
     const worker = yield* Cloudflare.Website.StaticSite("website", {
       main: "./src/static-worker.ts",
       command: "pnpm run build",
@@ -39,19 +41,17 @@ export default Alchemy.Stack(
             // Recovery must select the apex owner, not one of its identically tagged peers.
             name: "fairfield-consulting-worker-prod-5hd5v3cmaxxxlw4w",
           }
-        : isPreview
-          ? { name: `fairfield-site-${stage}` }
-          : {}),
+        : {}),
       assets: {
         htmlHandling: "drop-trailing-slash",
       },
     });
 
-    if (isPreview) {
+    if (isPreview && github?.pr) {
       yield* GitHub.Comment("preview-comment", {
-        owner: "fairfield-consulting",
-        repository: "site",
-        issueNumber: Number(stage.slice(3)),
+        owner: github.owner,
+        repository: github.repository,
+        issueNumber: github.pr,
         body: Output.interpolate`Preview: ${worker.url}`,
         allowDelete: true,
       });
