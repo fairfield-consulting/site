@@ -4,29 +4,28 @@ import Label from "~/components/Label.astro";
 import Textarea from "~/components/Textarea.astro";
 ---
 
-<section id="contact" class="container px-6 pt-20 pb-12 md:px-8 md:pt-24">
-  <h2
-    class="font-serif text-zinc-950 dark:text-zinc-50 text-4xl leading-tight tracking-tight md:text-5xl max-w-prose"
+<section id="contact" class="py-28 max-md:py-18">
+  <div
+    class="grid grid-cols-[minmax(0,1.1fr)_minmax(14rem,0.9fr)] gap-12 md:gap-16 lg:gap-20 xl:gap-24 max-md:grid-cols-1"
   >
-    Get in touch
-  </h2>
-  <p
-    class="mt-5 max-w-prose-narrow text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
-  >
-    Have a project in mind? Let's talk.
-  </p>
-</section>
-
-<section class="container px-6 pb-24 md:px-8">
-  <form
-    class="max-w-prose text-zinc-800 dark:text-zinc-200"
-    name="contact"
-    method="POST"
-    action="https://formspree.io/f/xwvnljja"
-  >
-    <input type="hidden" name="form-name" value="contact" />
-    <div class="flex flex-col gap-4">
-      <Label class="flex flex-col gap-2 text-lg" for="name">
+    <div class="self-start">
+      <h2
+        class="max-w-[11ch] min-w-0 m-0 wrap-anywhere font-editorial text-section text-site-ink"
+      >
+        Get in touch
+      </h2>
+      <p class="mt-6 mb-0 max-w-92 text-body text-site-muted">
+        Tell me about your project, what you need help with, and any timeline you have in mind.
+      </p>
+    </div>
+    <form
+      class="grid gap-8"
+      name="contact"
+      method="POST"
+      action="https://formspree.io/f/xwvnljja"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <Label for="name">
         Name
         <Input
           type="text"
@@ -37,7 +36,7 @@ import Textarea from "~/components/Textarea.astro";
           placeholder="Your name"
         />
       </Label>
-      <Label class="flex flex-col gap-2 text-lg" for="email">
+      <Label for="email">
         Email
         <Input
           type="email"
@@ -48,7 +47,7 @@ import Textarea from "~/components/Textarea.astro";
           placeholder="your@email.com"
         />
       </Label>
-      <Label class="flex flex-col gap-2 text-lg" for="message">
+      <Label for="message">
         Message
         <Textarea
           id="message"
@@ -58,14 +57,12 @@ import Textarea from "~/components/Textarea.astro";
           rows="4"
         />
       </Label>
-      <div class="mt-8">
-        <button
-          type="submit"
-          class="inline-block rounded-lg bg-emerald-800 px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-emerald-900"
-        >
-          Send message
-        </button>
-      </div>
-    </div>
-  </form>
+      <button
+        type="submit"
+        class="mt-4 inline-flex min-h-11.5 cursor-pointer items-center justify-center justify-self-start border border-site-accent bg-site-accent px-6 py-3 text-[0.8125rem] leading-none font-[680] tracking-[0.015em] whitespace-nowrap text-site-accent-ink transition-colors hover:bg-site-accent-strong focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:border-site-rule disabled:bg-site-alt disabled:text-site-muted disabled:opacity-55"
+      >
+        Send message
+      </button>
+    </form>
+  </div>
 </section>

@@ -1,18 +1,61 @@
 @import "tailwindcss";
 
-@utility container {
-  max-width: 1100px;
-  margin-inline: auto;
+:root {
+  --color-paper: oklch(97% 0.009 97);
+  --color-paper-2: oklch(93% 0.014 98);
+  --color-ink: oklch(20% 0.018 151);
+  --color-ink-2: oklch(42% 0.022 151);
+  --color-rule: oklch(78% 0.018 145);
+  --color-accent: oklch(38% 0.09 157);
+  --color-accent-strong: oklch(29% 0.08 157);
+  --color-accent-ink: oklch(98% 0.01 98);
+  --color-focus: var(--color-accent);
+  --color-image-deep: oklch(21% 0.044 266);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: oklch(13% 0.012 151);
+    --color-paper-2: oklch(17% 0.014 151);
+    --color-ink: oklch(94% 0.009 97);
+    --color-ink-2: oklch(73% 0.014 144);
+    --color-rule: oklch(29% 0.018 151);
+    --color-accent: oklch(72% 0.11 157);
+    --color-accent-strong: oklch(64% 0.1 157);
+    --color-accent-ink: oklch(16% 0.018 151);
+    --color-image-deep: oklch(24% 0.049 266);
+  }
+}
+
+@theme inline {
+  --color-site: var(--color-paper);
+  --color-site-alt: var(--color-paper-2);
+  --color-site-ink: var(--color-ink);
+  --color-site-muted: var(--color-ink-2);
+  --color-site-rule: var(--color-rule);
+  --color-site-accent: var(--color-accent);
+  --color-site-accent-strong: var(--color-accent-strong);
+  --color-site-accent-ink: var(--color-accent-ink);
+  --color-site-focus: var(--color-focus);
+  --color-site-image-deep: var(--color-image-deep);
 }
 
 @theme {
-  --font-sans:
-    "DM Sans Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
-  --font-serif: "Playfair Display Variable", "Georgia", Cambria, "Times New Roman", Times, serif;
+  --font-editorial: "Playfair Display Variable", Georgia, Cambria, "Times New Roman", serif;
+  --font-site: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
 
-  /* Custom max-width values for prose content */
-  --container-prose-narrow: 540px;
-  --container-prose: 600px;
-  --container-prose-wide: 700px;
+  --text-display: clamp(4rem, 7.7vw, 7.5rem);
+  --text-display--line-height: 0.88;
+  --text-display--letter-spacing: -0.065em;
+  --text-display--font-weight: 480;
+
+  --text-section: clamp(2.5rem, 5vw, 4.75rem);
+  --text-section--line-height: 0.95;
+  --text-section--letter-spacing: -0.055em;
+  --text-section--font-weight: 480;
+
+  --text-body: 1.0625rem;
+
+  --default-transition-duration: 180ms;
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
