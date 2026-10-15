@@ -1,131 +1,39 @@
 name: PR preview
 
 on:
-  workflow_run:
-    workflows: [Build PR preview]
-    types: [completed]
-  push:
+  pull_request:
     branches: [main]
+    types: [opened, reopened, synchronize, closed]
 
-permissions: {}
+concurrency:
+  group: alchemy-fairfield-consulting-pr-${{ github.event.number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write
 
 env:
   CI: "true"
+  STAGE: pr-${{ github.event.number }}
 
 jobs:
-  resolve:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      actions: read
-      pull-requests: read
-    outputs:
-      prs: ${{ steps.prs.outputs.result }}
-    steps:
-      - uses: actions/github-script@v8
-        id: prs
-        with:
-          result-encoding: string
-          script: |
-            const repo = context.repo;
-            const fullName = `${repo.owner}/${repo.repo}`;
-            const run = context.payload.workflow_run;
-            let prs;
-            if (run) {
-              if (run.event !== 'pull_request' || run.head_repository?.full_name !== fullName) return '[]';
-              const { data: workflow } = await github.rest.actions.getWorkflow({ ...repo, workflow_id: 'preview-build.yml' });
-              if (run.workflow_id !== workflow.id) throw new Error('Unexpected preview build workflow.');
-              prs = run.pull_requests;
-              if (!prs.length) {
-                prs = await github.paginate(github.rest.pulls.list, {
-                  ...repo, state: 'all', head: `${repo.owner}:${run.head_branch}`, per_page: 100,
-                });
-                prs = prs.filter(pr => pr.head.sha === run.head_sha);
-                if (prs.length !== 1) throw new Error('Cannot identify the exact preview PR.');
-              }
-            } else {
-              // A main push can contain more than one PR merge.
-              prs = [];
-              for (let page = 1; ; page++) {
-                const { data } = await github.request('GET /repos/{owner}/{repo}/compare/{basehead}', {
-                  ...repo, basehead: `${context.payload.before}...${context.sha}`, per_page: 100, page,
-                });
-                for (const commit of data.commits) {
-                  prs.push(...await github.paginate(github.rest.repos.listPullRequestsAssociatedWithCommit, {
-                    ...repo, commit_sha: commit.sha, per_page: 100,
-                  }));
-                }
-                if (data.commits.length < 100) break;
-              }
-              prs = prs.filter(pr => pr.merged_at && pr.base.ref === 'main' && pr.head.repo?.full_name === fullName);
-            }
-            const numbers = [...new Set(prs.map(pr => pr.number))];
-            if (!numbers.every(n => Number.isSafeInteger(n) && n > 0 && n < 1e9)) throw new Error('Invalid preview PR.');
-            return JSON.stringify(numbers);
-
   preview:
-    needs: resolve
-    if: needs.resolve.outputs.prs != '[]'
-    strategy:
-      fail-fast: false
-      matrix:
-        pr: ${{ fromJSON(needs.resolve.outputs.prs) }}
-    concurrency:
-      group: site-preview-pr-${{ matrix.pr }}
-      cancel-in-progress: false
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      actions: read
-      pull-requests: write
-    env:
-      PR_NUMBER: ${{ matrix.pr }}
     steps:
-      - uses: actions/github-script@v8
-        id: current
-        with:
-          script: |
-            const { data: pr } = await github.rest.pulls.get({ ...context.repo, pull_number: Number(process.env.PR_NUMBER) });
-            if (pr.head.repo?.full_name !== `${context.repo.owner}/${context.repo.repo}`) return;
-            if (pr.state === 'closed') {
-              core.setOutput('operation', 'destroy');
-              return;
-            }
-            const run = context.payload.workflow_run;
-            if (pr.base.ref !== 'main' || !run || run.conclusion !== 'success' || run.head_sha !== pr.head.sha) return;
-            const artifacts = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, { ...context.repo, run_id: run.id, per_page: 100 });
-            const assets = artifacts.filter(a => a.name === 'site-preview' && !a.expired);
-            if (assets.length > 1) throw new Error('Ambiguous preview artifact.');
-            if (assets.length === 1) core.setOutput('operation', 'deploy');
       - uses: actions/checkout@v7
-        if: steps.current.outputs.operation != ''
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.action == 'closed' && 'main' || github.sha }}
           persist-credentials: false
       - uses: pnpm/action-setup@v4
-        if: steps.current.outputs.operation != ''
       - uses: actions/setup-node@v4
-        if: steps.current.outputs.operation != ''
         with:
           node-version-file: .nvmrc
-      - if: steps.current.outputs.operation != ''
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm exec tsc --ignoreConfig --noEmit --allowImportingTsExtensions --module NodeNext --moduleResolution NodeNext --target ESNext --skipLibCheck alchemy.preview.ts
-      - if: steps.current.outputs.operation != ''
-        run: mkdir -p "$RUNNER_TEMP/site-preview-assets"
-      - uses: actions/download-artifact@v5
-        if: steps.current.outputs.operation == 'deploy'
-        with:
-          name: site-preview
-          path: ${{ runner.temp }}/site-preview-assets
-          run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ github.token }}
-      - if: steps.current.outputs.operation != ''
-        run: pnpm alchemy "$OPERATION" --config alchemy.preview.ts --stage "pr-$PR_NUMBER" --env-file /dev/null --yes
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm alchemy "$OPERATION" --stage "$STAGE" --yes
         env:
-          OPERATION: ${{ steps.current.outputs.operation }}
-          PREVIEW_ASSETS: ${{ runner.temp }}/site-preview-assets
+          OPERATION: ${{ github.event.action == 'closed' && 'destroy' || 'deploy' }}
           GITHUB_TOKEN: ${{ github.token }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
