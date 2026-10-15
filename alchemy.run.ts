@@ -52,7 +52,7 @@ export default Alchemy.Stack(
         owner: github.owner,
         repository: github.repository,
         issueNumber: github.pr,
-        body: Output.interpolate`Preview: ${worker.url}`,
+        body: Output.interpolate`Preview: ${worker.url}\nCommit: ${github.sha}`,
         allowDelete: true,
       });
     }
