@@ -29,6 +29,17 @@ Run all commands from the root of the project:
 Site development uses Astro directly. Alchemy development runs the local Worker
 without a production deployment. The Alchemy CLI always runs with Node.
 
+## PR previews
+
+Same-repository PRs to main get a stable workers.dev URL in one bot comment;
+fork PRs are skipped. PR code builds without deployment secrets, and trusted main
+code publishes only static assets. Merging into main removes that PR's preview;
+ordinary close events also request cleanup, but a conflicted PR closed without
+merging can retain it because GitHub suppresses that event. Preview stages reuse
+the existing account backend without bootstrap or upgrade. The workflows must
+first land on main; existing PRs need another PR event. Same-repository workflow
+authors remain trusted.
+
 ## Production state
 
 Fresh CI runners do not retain local deployment state. Production needs durable
