@@ -44,10 +44,19 @@ jobs:
                 if (prs.length !== 1) throw new Error('Cannot identify the exact preview PR.');
               }
             } else {
-              // Merge cleanup does not depend on a merged PR's empty event payload.
-              prs = await github.paginate(github.rest.repos.listPullRequestsAssociatedWithCommit, {
-                ...repo, commit_sha: context.sha, per_page: 100,
-              });
+              // A main push can contain more than one PR merge.
+              prs = [];
+              for (let page = 1; ; page++) {
+                const { data } = await github.request('GET /repos/{owner}/{repo}/compare/{basehead}', {
+                  ...repo, basehead: `${context.payload.before}...${context.sha}`, per_page: 100, page,
+                });
+                for (const commit of data.commits) {
+                  prs.push(...await github.paginate(github.rest.repos.listPullRequestsAssociatedWithCommit, {
+                    ...repo, commit_sha: commit.sha, per_page: 100,
+                  }));
+                }
+                if (data.commits.length < 100) break;
+              }
               prs = prs.filter(pr => pr.merged_at && pr.base.ref === 'main' && pr.head.repo?.full_name === fullName);
             }
             const numbers = [...new Set(prs.map(pr => pr.number))];
