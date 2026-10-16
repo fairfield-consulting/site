@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {
-  title = "Website builds, rebuilds, and migrations | Fairfield Consulting",
+  title = "Websites for startups and small businesses | Fairfield Consulting",
   description = "Fairfield Consulting builds and rebuilds websites for startups and small businesses, with company handover or optional ongoing support.",
 } = Astro.props;
 const isHome = Astro.url.pathname === "/";
@@ -74,7 +74,7 @@ const includeAnalytics = import.meta.env.PROD;
       </div>
     </nav>
     <main
-      class="mx-auto w-[min(calc(100%-3rem),72rem)] pb-40 max-md:w-[min(calc(100%-2rem),72rem)]"
+      class="mx-auto w-[min(calc(100%-3rem),72rem)] pb-24 max-md:w-[min(calc(100%-2rem),72rem)]"
     >
       <slot />
     </main>

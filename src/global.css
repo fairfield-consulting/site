@@ -11,6 +11,7 @@
   --color-accent-ink: oklch(98% 0.01 98);
   --color-focus: var(--color-accent);
   --color-image-deep: oklch(21% 0.044 266);
+  --color-image-paper: oklch(97% 0.009 97);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,6 +39,7 @@
   --color-site-accent-ink: var(--color-accent-ink);
   --color-site-focus: var(--color-focus);
   --color-site-image-deep: var(--color-image-deep);
+  --color-site-image-paper: var(--color-image-paper);
 }
 
 @theme {

@@ -13,27 +13,27 @@ const { title, description, tags, link, imagePosition = "right" } = Astro.props;
 
 <article
   class:list={[
-    "grid min-h-[31rem] border-b border-site-rule md:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] max-md:min-h-0",
+    "grid border-b border-site-rule md:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]",
     imagePosition === "left" &&
-      "md:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]",
+      "md:grid-cols-[minmax(0,0.4fr)_minmax(0,1.6fr)]",
   ]}
 >
   <div
     class:list={[
-      "flex flex-col items-start justify-center px-0 py-8 md:p-12 lg:px-16 lg:py-18",
+      "flex min-w-0 flex-col items-start justify-center px-0 py-8 md:p-8 lg:px-10 lg:py-12",
       imagePosition === "left" && "md:col-start-2",
     ]}
   >
     <h3
-      class="max-w-[16ch] min-w-0 m-0 wrap-anywhere font-editorial text-[clamp(1.9rem,3vw,3.25rem)] leading-none font-[480] tracking-[-0.045em] text-site-ink"
+      class="max-w-[16ch] min-w-0 m-0 wrap-anywhere font-editorial text-[clamp(1.75rem,2.8vw,2.75rem)] leading-none font-[480] tracking-[-0.045em] text-site-ink"
     >
       {title}
     </h3>
-    <p class="max-w-xl mt-6 mb-0 text-[0.9375rem] leading-[1.65] text-site-muted">
+    <p class="max-w-xl mt-4 mb-0 text-[0.9375rem] leading-[1.65] text-site-muted">
       {description}
     </p>
     <ul
-      class="m-0 mt-8 flex flex-wrap gap-x-1.5 gap-y-1 p-0 text-xs font-medium text-site-muted list-none"
+      class="m-0 mt-5 flex flex-wrap gap-x-1.5 gap-y-1 p-0 text-xs font-medium text-site-muted list-none"
       aria-label="Technologies"
     >
       {
@@ -46,7 +46,7 @@ const { title, description, tags, link, imagePosition = "right" } = Astro.props;
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
-      class="mt-8 inline-flex items-center gap-2 whitespace-nowrap text-sm font-bold text-site-accent no-underline transition-colors hover:text-site-accent-strong focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4"
+      class="mt-5 inline-flex items-center gap-2 whitespace-nowrap text-sm font-bold text-site-accent no-underline transition-colors hover:text-site-accent-strong focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4"
     >
       {link.label}
       <ArrowUpRightIcon aria-hidden="true" className="size-3.5" />
@@ -54,7 +54,7 @@ const { title, description, tags, link, imagePosition = "right" } = Astro.props;
   </div>
   <div
     class:list={[
-      "relative min-h-76 overflow-hidden max-md:min-h-68 max-md:mb-18",
+      "relative min-w-0 py-6 max-md:pb-8 max-md:pt-0",
       imagePosition === "left" && "md:col-start-1 md:row-start-1",
     ]}
   >
