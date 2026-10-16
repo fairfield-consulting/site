@@ -29,6 +29,28 @@ Run all commands from the root of the project:
 Site development uses Astro directly. Alchemy development runs the local Worker
 without a production deployment. The Alchemy CLI always runs with Node.
 
+## Featured website project
+
+`src/content/featured-project.ts` contains the single release switch,
+`hideFeaturedProject`, committed as `true`. This excludes both the homepage
+feature and the project route from static generation; hiding a link alone is
+not the release control. No sitemap or search index is currently generated.
+
+For local editorial preview, set it to `false`, run `pnpm dev`, and follow the
+project link in Selected work to `/work/featured-website/`. The page contains
+clearly marked editorial placeholders, not a client story. To check production
+output, run `pnpm build` and `pnpm preview` after each flag change.
+
+Restore `true` before committing unfinished work. To publish later, replace
+editorial copy in `src/content/featured-project.ts`,
+`src/components/Work.astro`, and `src/pages/work/[project].astro` with approved
+facts and permitted assets, confirm scope, attribution, status, and any outcomes,
+then set the switch to `false` and rebuild.
+
+Recheck the homepage, project page, and their links before release. A review
+stack alone does not prevent deployment after merge; keep unfinished content
+excluded until it is ready.
+
 ## Production state
 
 Fresh CI runners do not retain local deployment state. Production needs durable

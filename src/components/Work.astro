@@ -1,5 +1,10 @@
 ---
 import ProjectCard from "~/components/ProjectCard.astro";
+import {
+  featuredProjectSlug,
+  featuredProjectTitle,
+  hideFeaturedProject,
+} from "~/content/featured-project";
 ---
 
 <section id="work" class="pt-8 pb-28 max-md:pt-6 max-md:pb-18">
@@ -9,6 +14,26 @@ import ProjectCard from "~/components/ProjectCard.astro";
     Selected work
   </h2>
   <div class="mt-18 max-md:mt-8">
+    {
+      !hideFeaturedProject && (
+        <article class="border-b border-site-rule py-8 md:p-12 lg:px-16 lg:py-18">
+          <h3 class="max-w-[20ch] min-w-0 m-0 wrap-anywhere font-editorial text-[clamp(1.9rem,3vw,3.25rem)] leading-none font-[480] tracking-[-0.045em] text-site-ink">
+            {featuredProjectTitle}
+          </h3>
+          <p class="max-w-xl mt-6 mb-0 text-[0.9375rem] leading-[1.65] text-site-muted">
+            This editorial preview reserves space for an approved website
+            project. It is not a published client story and contains no confirmed
+            project details or outcomes.
+          </p>
+          <a
+            href={`/work/${featuredProjectSlug}/`}
+            class="mt-8 inline-flex items-center whitespace-nowrap text-sm font-bold text-site-accent no-underline transition-colors hover:text-site-accent-strong focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4"
+          >
+            Read editorial preview
+          </a>
+        </article>
+      )
+    }
     <ProjectCard
       title="Internal Tooling for an AI Restaurant Tech Company"
       description="I built internal admin tools for a Y Combinator-backed company that automates restaurant ordering. I also established React and TypeScript patterns to help new engineers get started."

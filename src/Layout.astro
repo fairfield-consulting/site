@@ -3,11 +3,22 @@ import "@fontsource-variable/playfair-display";
 import "@fontsource-variable/dm-sans";
 import "~/global.css";
 
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Website builds, rebuilds, and migrations | Fairfield Consulting",
+  description = "Fairfield Consulting builds and rebuilds websites for startups and small businesses, with company handover or optional ongoing support.",
+} = Astro.props;
+const isHome = Astro.url.pathname === "/";
+
 const includeAnalytics = import.meta.env.PROD;
 ---
 
 <html
-  class="scroll-smooth overflow-x-clip scroll-pt-28 bg-site"
+  class="scroll-smooth overflow-x-clip scroll-pt-28 bg-site max-md:scroll-pt-36"
   lang="en"
 >
   <head>
@@ -24,11 +35,8 @@ const includeAnalytics = import.meta.env.PROD;
         />
       ) : null
     }
-    <title>Fairfield Consulting LLC</title>
-    <meta
-      name="description"
-      content="I build clean, fast websites and web apps for startups and small businesses."
-    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
   </head>
   <body
     class="min-w-80 overflow-x-clip bg-site font-site text-body leading-[1.55] text-site-ink [text-rendering:optimizeLegibility]"
@@ -38,7 +46,7 @@ const includeAnalytics = import.meta.env.PROD;
       aria-label="Primary navigation"
     >
       <div
-        class="mx-auto flex min-h-17 w-[min(calc(100%-3rem),72rem)] items-center justify-between gap-8 max-md:min-h-15 max-md:w-[min(calc(100%-2rem),72rem)] max-md:gap-4"
+        class="mx-auto flex min-h-17 w-[min(calc(100%-3rem),72rem)] items-center justify-between gap-8 max-md:min-h-15 max-md:w-[min(calc(100%-2rem),72rem)] max-md:flex-col max-md:items-start max-md:gap-3 max-md:py-4"
       >
         <a
           href="/"
@@ -49,12 +57,13 @@ const includeAnalytics = import.meta.env.PROD;
           {
             [
               ["#work", "Work"],
+              ["#services", "Services"],
               ["#about", "About"],
               ["#contact", "Contact"],
             ].map(([href, label]) => (
               <li>
                 <a
-                  href={href}
+                  href={isHome ? href : `/${href}`}
                   class="whitespace-nowrap text-xs font-[620] tracking-[0.01em] text-site-muted no-underline transition-colors hover:text-site-accent focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4 max-md:text-[0.6875rem]"
                   >{label}</a
                 >

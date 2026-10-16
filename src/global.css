@@ -59,3 +59,15 @@
   --default-transition-duration: 180ms;
   --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+  }
+}
