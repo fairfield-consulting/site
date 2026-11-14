@@ -1,8 +1,9 @@
+import * as Cloudflare from "@alchemy.run/cloudflare";
+import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { AlchemyContext } from "alchemy/AlchemyContext";
 import { ArtifactStore, createArtifactStore } from "alchemy/Artifacts";
 import { AuthProviders } from "alchemy/Auth/AuthProvider";
-import * as Cloudflare from "alchemy/Cloudflare";
 import * as Interaction from "alchemy/Interaction";
 import * as State from "alchemy/State";
 import { loadConfigProvider } from "alchemy/Util/ConfigProvider";
@@ -37,7 +38,7 @@ const check = Effect.gen(function* () {
     });
     return isProductionState(state, accountId);
   }).pipe(
-    Effect.provide(Cloudflare.state()),
+    Effect.provide(Cloudflare.state({ workerName: "alchemy-state-store" })),
     Effect.provideService(AuthProviders, {}),
     Effect.provideService(AlchemyContext, {
       dotAlchemy,
@@ -52,6 +53,7 @@ const check = Effect.gen(function* () {
 }).pipe(
   Effect.provide(Interaction.layerNonInteractive({ stdout: process.stderr, colors: false })),
   Effect.provide(NodeServices.layer),
+  Effect.provide(NodeCrypto.layerSecureRandom),
   Effect.scoped,
 );
 
