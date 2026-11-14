@@ -10,6 +10,9 @@ Install the native pnpm 12 executable using the
 [pnpm installation guide](https://pnpm.io/installation). Older Corepack shims do not
 support its package layout.
 
+Keep Alchemy and its Cloudflare/GitHub provider packages on the same version.
+Keep `effect` and `@effect/platform-node` aligned when upgrading them.
+
 Run all commands from the root of the project:
 
 | Command                          | Action                                                       |
@@ -39,7 +42,8 @@ Authoritative state lives in the Cloudflare account's native Alchemy state store
 behind the `alchemy-state-store` Worker. Cloudflare holds the encrypted state and
 its auth/encryption secrets; CI does not use runner files or GitHub artifacts as
 its source of deployment state. The backend is account-shared; separate stacks
-and stages keep application state apart.
+and stages keep application state apart. The stack and production preflight both
+pin `workerName: "alchemy-state-store"` so they use the same existing backend.
 Do not commit `.alchemy/`, state exports, credential files, or secret values.
 See [Alchemy's state-store documentation](https://alchemy.run/state-store/).
 
