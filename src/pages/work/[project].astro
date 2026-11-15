@@ -1,0 +1,119 @@
+---
+import Layout from "~/Layout.astro";
+import {
+  featuredProjectSlug,
+  featuredProjectTitle,
+  hideFeaturedProject,
+} from "~/content/featured-project";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return hideFeaturedProject
+    ? []
+    : [{ params: { project: featuredProjectSlug } }];
+}
+---
+
+<Layout
+  title={`${featuredProjectTitle} | Fairfield Consulting`}
+  description="An editorial preview for a future website project story. No client identity, delivery claims, or results are published here."
+>
+  <article class="min-w-0 pt-20 max-md:pt-12">
+    <header class="border-b border-site-rule pb-12 max-md:pb-8">
+      <h1
+        class="max-w-[18ch] min-w-0 m-0 wrap-anywhere font-editorial text-section text-site-ink"
+      >
+        {featuredProjectTitle}
+      </h1>
+      <p class="max-w-2xl mt-8 mb-0 text-site-muted">
+        This is an editorial preview, not a client story. The paragraphs below
+        mark the information needed before publication. They do not describe an
+        identified project, completed work, or verified outcomes.
+      </p>
+    </header>
+
+    <div class="max-w-2xl">
+      <section class="border-b border-site-rule py-10" aria-labelledby="overview">
+        <h2 id="overview" class="m-0 font-editorial text-3xl text-site-ink">
+          Project overview and role
+        </h2>
+        <p class="mt-6 mb-0 text-site-muted">
+          Placeholder. Add the approved client name or anonymous description,
+          what the website is for, the actual project status, and my role. Credit
+          collaborators and distinguish my contribution from their work.
+        </p>
+      </section>
+
+      <section class="border-b border-site-rule py-10" aria-labelledby="starting-point">
+        <h2 id="starting-point" class="m-0 font-editorial text-3xl text-site-ink">
+          Starting point
+        </h2>
+        <p class="mt-6 mb-0 text-site-muted">
+          Placeholder. Describe the existing website or need for a new one using
+          confirmed facts. Explain the visitor needs and constraints without
+          assuming a commercial problem or an outcome.
+        </p>
+      </section>
+
+      <section class="border-b border-site-rule py-10" aria-labelledby="decisions">
+        <h2 id="decisions" class="m-0 font-editorial text-3xl text-site-ink">
+          Decisions and collaboration
+        </h2>
+        <p class="mt-6 mb-0 text-site-muted">
+          Placeholder. Describe one real website decision, the options discussed,
+          my contribution, and what the client agreed. State whether the decision
+          was suggested, accepted, or implemented. Do not present a suggestion as
+          a completed change.
+        </p>
+      </section>
+
+      <section class="border-b border-site-rule py-10" aria-labelledby="website-work">
+        <h2 id="website-work" class="m-0 font-editorial text-3xl text-site-ink">
+          Website work
+        </h2>
+        <p class="mt-6 mb-0 text-site-muted">
+          Placeholder. Describe the work actually delivered and its agreed scope.
+          Include screenshots or links only when they are available and approved
+          for publication. No project visuals are supplied in this preview.
+        </p>
+        <h3 class="mt-8 mb-0 text-lg font-semibold text-site-ink">
+          Technical details (optional)
+        </h3>
+        <p class="mt-4 mb-0 text-site-muted">
+          Placeholder. If useful, explain the implementation choices and
+          constraints that affected this project. Remove this subsection if there
+          are no relevant, confirmed details to share.
+        </p>
+      </section>
+
+      <section class="border-b border-site-rule py-10" aria-labelledby="delivery">
+        <h2 id="delivery" class="m-0 font-editorial text-3xl text-site-ink">
+          Delivery and evidence
+        </h2>
+        <p class="mt-6 mb-0 text-site-muted">
+          Placeholder. State the actual delivery or in-progress status and the
+          evidence that supports it. Mention handover or continued care only if
+          agreed for this project. Include outcomes only when verified; no results
+          or testimonial are claimed in this preview.
+        </p>
+      </section>
+
+      <section class="pt-10" aria-labelledby="project-contact">
+        <h2 id="project-contact" class="m-0 font-editorial text-3xl text-site-ink">
+          Contact
+        </h2>
+        <p class="mt-6 mb-0 text-site-muted">
+          Tell me about the website you want to build or replace and what is still
+          undecided.
+        </p>
+        <a
+          href="/#contact"
+          class="mt-6 inline-flex whitespace-nowrap text-sm font-bold text-site-accent no-underline transition-colors hover:text-site-accent-strong focus-visible:outline-2 focus-visible:outline-site-focus focus-visible:outline-offset-4"
+        >
+          Discuss your website
+        </a>
+      </section>
+    </div>
+  </article>
+</Layout>
